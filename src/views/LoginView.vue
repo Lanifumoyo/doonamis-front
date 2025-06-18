@@ -10,7 +10,7 @@
                     <input 
                         type="email" 
                         id="email" 
-                        v-model="email" 
+                        v-model="loginData.email" 
                         placeholder="tu@email.com"
                         required
                     />
@@ -20,20 +20,13 @@
                     <input 
                         type="password" 
                         id="password" 
-                        v-model="password" 
+                        v-model="loginData.password" 
                         placeholder="Tu contraseña"
                         required
                     />
                 </div>
-                <div class="error-message" v-if="authError">
-                    <p>Credenciales incorrectas</p>
-                </div>
-                <div class="form-options">
-                    <label class="remember-me">
-                        <input type="checkbox" v-model="rememberMe" />
-                        <span>Recordarme</span>
-                    </label>
-                    <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+                <div class="error-message" v-if="authError.status">
+                    <p>{{ authError.message }}</p>
                 </div>
                 <button type="submit" class="login-button">Iniciar Sesión</button>
             </form>
@@ -45,21 +38,31 @@
 import { ref } from 'vue'
 import { AuthService } from '@/services/auth.service'
 import { useRouter } from 'vue-router'
+import type { LoginDto } from '@/dtos/auth.dto'
 
-const email = ref('')
-const password = ref('')
-const rememberMe = ref(false)
-const authError = ref(false)
 const authService = new AuthService()
 const router = useRouter()
 
+const loginData = ref<LoginDto>({
+    email: '',
+    password: ''
+})
+const authError = ref({
+    status: false,
+    message: ''
+})
+
 const handleLogin = async () => {
-    authService.login(email.value, password.value).then((response) => {
+    authService.login(loginData.value).then((response) => {
         localStorage.setItem('doonamis_token', response.data.access_token)
         router.push('/')
     }).catch((error) => {
+        authError.value.status = true
+        authError.value.message = 'Ups... algo salió mal, por favor intentalo de nuevo.'
         if (error.response.status === 401) {
-            authError.value = true
+            authError.value.status = true
+            authError.value.message = 'Credenciales incorrectas'
+            return
         }
     })
 }
@@ -72,13 +75,14 @@ const handleLogin = async () => {
     align-items: center;
     max-width: 100%;
     height: 100vh;
+    max-height: 100vh;
     
     .login-box {
         background-color: #fff;
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-        width: 50%;
+        width: 80%;
     }
 
     .login-header {
@@ -96,6 +100,7 @@ const handleLogin = async () => {
         display: flex;
         flex-direction: column;
         gap: 15px;
+        
         .error-message {
             color: #dc3545;
             font-size: 0.75rem;
@@ -113,22 +118,6 @@ const handleLogin = async () => {
                 padding: 10px;
                 border-radius: 5px;
                 border: 1px solid #ccc;
-            }
-        }
-        .form-options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            .remember-me {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-            }
-            .forgot-password {
-                font-size: 14px;
-                color: #333;
-                text-decoration: none;
-                cursor: pointer;
             }
         }
         .login-button {
