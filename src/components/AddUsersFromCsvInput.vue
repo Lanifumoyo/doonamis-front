@@ -44,13 +44,14 @@ const handleFileUpload = (event: Event) => {
         formData.append('file', file)
         usersService.uploadUsers(formData).then(() => {
             uploadSuccess.value.status = true
-            uploadSuccess.value.message = 'Los usuarios se han subido correctamente'
+            uploadSuccess.value.message = 'Los usuarios se han sincronizado correctamente'
+            uploadError.value.status = false
             emit('usersUpdated')
         }).catch((error) => {
             uploadError.value.status = true
             uploadError.value.message = 'No se han podido subir los usuarios'
             if(error.response.status === 400) {
-                uploadError.value.message = 'El archivo no es un CSV válido'
+                uploadError.value.message = error.response.data.message
             }
         })
     }
