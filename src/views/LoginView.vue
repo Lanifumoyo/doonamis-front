@@ -70,65 +70,91 @@ const handleLogin = async () => {
 
 <style scoped lang="scss">
 .login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  min-height: 100vh;
+
+  .login-box {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 400px;
+    transition: all 0.3s ease;
+  }
+
+  .login-header {
     display: flex;
     justify-content: center;
     align-items: center;
-    max-width: 100%;
-    height: 100vh;
-    max-height: 100vh;
-    
-    .login-box {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-        width: 80%;
+    margin-bottom: 1.5rem;
+
+    h1 {
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      font-weight: 700;
+      color: #333;
+    }
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      label {
+        font-weight: 500;
+        color: #4a4a4a;
+        font-size: 0.95rem;
+      }
+
+      input {
+        padding: 0.75rem;
+        border-radius: 0.75rem;
+        border: 1px solid #dcdcdc;
+        font-size: 1rem;
+        transition: border-color 0.2s ease;
+
+        &:focus {
+          outline: none;
+          border-color: #a0d8ef;
+          box-shadow: 0 0 0 2px rgba(160, 216, 239, 0.3);
+        }
+      }
     }
 
-    .login-header {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        h1 {
-            font-size: 24px;
-            font-weight: 600;
-            color: #333;
-        }
+    .error-message {
+      color: #dc3545;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-align: center;
+      background-color: #ffe5e5;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
     }
 
-    .login-form {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        
-        .error-message {
-            color: #dc3545;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            label {
-                font-weight: 600;
-                color: #333;
-            }
-            input {
-                padding: 10px;
-                border-radius: 5px;
-                border: 1px solid #ccc;
-            }
-        }
-        .login-button {
-            background-color: #ff6c0e;
-            color: #fff;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            border: none;
-        }
+    .login-button {
+      background-color: #ff6c0e;
+      color: #fff;
+      padding: 0.75rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 0.75rem;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #e45e05;
+      }
     }
+  }
 }
-
 </style>
