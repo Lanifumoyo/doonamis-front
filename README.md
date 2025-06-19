@@ -1,39 +1,84 @@
-# doonamis-front
+# Doonamis Frontend
 
-This template should help get you started developing with Vue 3 in Vite.
+Aplicación web desarrollada con Vue 3 y TypeScript para la gestión de usuarios de Doonamis.
 
-## Recommended IDE Setup
+## Tecnologías
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- **Vue 3** - Framework de JavaScript progresivo
+- **TypeScript** - Tipado estático para JavaScript
+- **Vite** - Herramienta de construcción rápida
+- **Vue Router** - Enrutamiento oficial de Vue
+- **Axios** - Cliente HTTP para peticiones API
+- **SCSS** - Preprocesador CSS
+- **ESLint** - Linter para JavaScript/TypeScript
 
-## Type Support for `.vue` Imports in TS
+## Prerrequisitos
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+- Node.js (versión 22 o superior)
+- npm o yarn
 
-## Customize configuration
+## ⚙️ Configuración Inicial
 
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
+### 1. Instalar dependencias
+```bash
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### 2. Configurar variables de entorno
+Crear un archivo `.env` en la raíz del proyecto:
+```env
+VITE_API_URL=http://localhost:8000
+```
 
-```sh
+### 3. Ejecutar en modo desarrollo
+```bash
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+La aplicación estará disponible en `http://localhost:5173`
 
-```sh
-npm run build
+## 📁 Estructura del Proyecto
+
+```
+src/
+├── components/          # Componentes reutilizables
+│   ├── AddUsersFromCsvInput.vue
+│   └── UsersTable.vue
+├── views/              # Vistas/páginas
+│   ├── HomeView.vue
+│   └── LoginView.vue
+├── services/           # Servicios API
+│   ├── api.service.ts
+│   ├── auth.service.ts
+│   └── users.service.ts
+├── dtos/              # Data Transfer Objects
+│   ├── auth.dto.ts
+│   └── user.dto.ts
+├── router/            # Configuración de rutas
+│   └── index.ts
+└── assets/            # Recursos estáticos
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+## Autenticación
 
-```sh
-npm run lint
+El sistema utiliza JWT (JSON Web Tokens) para la autenticación:
+
+- Los tokens se almacenan en `localStorage`
+- Se incluyen automáticamente en las cabeceras de las peticiones API
+- Protección de rutas con guardias de navegación
+
+## Gestión de Usuarios
+
+### Funcionalidades implementadas:
+
+1. **Listado de usuarios**: Tabla con información completa
+2. **Eliminación de usuarios**: Botón de eliminar por usuario
+3. **Importación masiva**: Carga de usuarios desde archivo CSV
+4. **Actualización automática**: La tabla se actualiza automáticamente tras operaciones
+
+### Formato del archivo CSV:
+```csv
+name,last_name,email,password,phone,address
+Juan,Pérez,juan@email.com,12345,123456789,Calle Principal 123
+María,García,maria@email.com,12345,987654321,Avenida Central 456
 ```
